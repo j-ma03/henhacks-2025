@@ -136,6 +136,14 @@ print("Scores:")
 print("Route 1:", score1)
 print("Route 2:", score2)
 print("Route 3:", score3)
+
+print("The best route is:")
+if score1 > score2 and score1 > score3:
+    print("Route 1")
+elif score2 > score1 and score2 > score3:
+    print("Route 2")
+else:
+    print("Route 3")
 # print(start_latitude, start_longitude)
 # print(destination_latitude, destination_longitude)
 

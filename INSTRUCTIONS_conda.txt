@@ -1,8 +1,0 @@
-To run the code, you need Anaconda installed on your machine. 
-Create the conda environment with all the necessary packages with 
-the following command:
-
-$ conda env create -f environment.yml
-
-Then, activate the environment with the following command:
-$ conda activate bikesafe   
