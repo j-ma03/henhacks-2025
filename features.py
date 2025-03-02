@@ -48,10 +48,9 @@ class OverpassAPI:
 # longitude = -76.612188
 # radius = 2  # Radius in meters
 
-# api = OverpassAPI(latitude, longitude, radius)
-# features = api.get_nearby_features()
-# formatted_features = api.format_features(features)
+# api = OverpassAPI(radius)
+# features = api.get_and_format_nearby_features(latitude, longitude)
 
 # print("Nearby features:")
-# for feature in formatted_features:
+# for feature in features:
 #     print(feature)
