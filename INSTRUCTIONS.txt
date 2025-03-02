@@ -1,2 +1,5 @@
 install all required packages using:
 $ pip install -r requirements.txt
+
+To run the program, use the following command:
+$ python3 main.py
