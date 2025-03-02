@@ -1,0 +1,14 @@
+name: bikesafe
+channels:
+  - defaults
+dependencies:
+  - conda
+  - python=3.12
+  - ipykernel
+  - numpy
+  - matplotlib
+  - pandas
+  - typing
+  - tqdm
+  - google-api-core
+  - conda-forge::google-generativeai
