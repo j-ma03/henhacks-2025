@@ -4,6 +4,7 @@ import route
 import requests
 import numpy as np
 import random
+import pdb; 
 
 class OverpassAPI:
     """
@@ -31,7 +32,6 @@ class OverpassAPI:
         """
         response = requests.get(self.overpass_url, params={'data': overpass_query})
         data = response.json()
-        
         formatted_features = []
         for element in data['elements']:
             if element['type'] == 'node':
@@ -56,15 +56,19 @@ class OverpassAPI:
 start_latitude, start_longitude = map(float, input("Enter the start latitude and longitude separated by spaces: ").split())
 destination_latitude, destination_longitude = map(float, input("Enter the destination latitude and longitude separated by spaces: ").split())
 prompt = input("Enter your prompt: ")
+if len(prompt.split()) < 5:
+    prompt = "I want a route with a lot of trees and slow cars. Prioritize safety and nature and residential neighborhoods. "
 
-gemini = gemini_api.GeminiAPI("AIzaSyBCGrr4M1xkbFjRuNFW3lR0y4NSAxnTy1A") # gets suggested tags from prompt
+gemini = gemini_api.GeminiAPI("AIzaSyBCGrr4M1xkbFjRuNFW3lR0y4NSAxnTy1A") # gets suggested tags from prompt 
 overpass = OverpassAPI(radius=2) # gets nearby features from latitude and longitude
 router = route.RouteAPI() # gets route between two points
 
-suggested_tags = gemini.generate_suggestions(prompt) # gets suggested tags from prompt
+suggested_tags = gemini.generate_suggestions(prompt) # gets suggested tags from prompt 
+# print(suggested_tags)
 
 # get route between two points
 route1 = router.get_osrm_route(start_latitude, start_longitude, destination_latitude, destination_longitude)
+# print(route1)
 sampled_coords1 = router.get_sampled_coords(route1)
 
 # define 2 random points between the start and destination points to create alternate routes
@@ -74,20 +78,27 @@ def generate_random_point(center_lat, center_lon, radius):
 
     # Generate random angle and distance
     angle = random.uniform(0, 2 * np.pi)
+    # print(angle)
     distance = random.uniform(0, radius_in_degrees)
+    # print(distance)
 
     # Calculate new latitude and longitude
     new_lat = center_lat + (distance * np.cos(angle))
+    # print(new_lat)
     new_lon = center_lon + (distance * np.sin(angle)) / np.cos(np.radians(center_lat))
+    # print(new_lon)
 
     return new_lat, new_lon
 
 # Calculate the center point between start and destination
 center_latitude = (start_latitude + destination_latitude) / 2
+# print(center_latitude)
 center_longitude = (start_longitude + destination_longitude) / 2
+# print(center_longitude)
 
 # Calculate the distance between start and destination in meters
 distance = np.sqrt((start_latitude - destination_latitude)**2 + (start_longitude - destination_longitude)**2) * 111320
+# print(distance)
 
 # Generate two random points within the circle
 random_point1 = generate_random_point(center_latitude, center_longitude, distance / 2)
@@ -144,23 +155,3 @@ elif score2 > score1 and score2 > score3:
     print("Route 2")
 else:
     print("Route 3")
-# print(start_latitude, start_longitude)
-# print(destination_latitude, destination_longitude)
-
-# latitude = 39.328627
-# longitude = -76.612188
-# radius = 2  # Radius in meters
-
-# api = features.OverpassAPI(radius=2)
-# features = api.get_and_format_nearby_features(latitude, longitude)
-
-# print("Nearby features:")
-# for feature in features:
-#     print(feature)
-
-# print("Suggested tags:")
-# print(suggested_tags)
-# print(suggested_tags.shape)
-# print("\nNearby features:")
-# print(nearby_features)
-# print(nearby_features.shape)
