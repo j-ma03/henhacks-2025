@@ -1,6 +1,17 @@
 import requests
+import numpy as np
 
 class OverpassAPI:
+    """
+    get nearby features in a 2m radius given a latitude and longitude
+
+    args:
+        - radius: int: radius in meters
+
+    methods:
+        - get_and_format_nearby_features: list: get nearby features in a 2m radius given a 
+          latitude and longitude
+    """
     def __init__(self, radius=2):
         self.radius = radius
         self.overpass_url = "http://overpass-api.de/api/interpreter"
@@ -26,10 +37,11 @@ class OverpassAPI:
             
             feature_id = element['id']
             tags = element.get('tags', {})
-            tags_str = ", ".join([f"{k}={v}" for k, v in tags.items()])
-            formatted_features.append(f"{feature_type} #{feature_id} ({tags_str})")
+            for k, v in tags.items():
+                formatted_features.append(f"{k}={v}")
         
-        return formatted_features
+        # return formatted_features
+        return np.array(formatted_features)
 
 # # Example usage
 # latitude = 39.328627

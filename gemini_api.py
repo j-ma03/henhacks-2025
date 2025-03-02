@@ -1,6 +1,18 @@
 from google import genai
+import numpy as np
 
 class GeminiAPI:
+    """
+    use google gemini to generate suggestions for key-value pairs that could be used to describe 
+    the object and related objects in openstreetmap
+
+    args:
+     - api_key: str: google api key
+
+    methods:
+     - generate_suggestions: str: generate suggestions for key-value pairs that could be used to
+       describe the object and related objects in openstreetmap
+    """
     def __init__(self, api_key):
         self.client = genai.Client(api_key=api_key)
 
@@ -24,6 +36,7 @@ class GeminiAPI:
         )
         result = response.text
         result = result.replace(", ", "\n")
+        result = np.array([line for line in result.split("\n") if line.strip()])
         return result
 
 if __name__ == "__main__":
